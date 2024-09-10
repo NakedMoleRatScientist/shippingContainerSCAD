@@ -4,8 +4,8 @@ $fs = 0.1;
 use <small_box.scad>;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
+print = 1;
 cut = 0.1;
-
 width = 46.5;
 length = 95;
 height = 21.5;
@@ -18,26 +18,33 @@ front = "0.15uF";
 back = "1.5uF";
 title = str(front,"-",back);
 
+
 difference()
 {
-    small_box(width,length,height,m);
-    move_y(90)
+    small_box(width,length,height,m,print);
+    if (print == 0)
     {
-        refill();
-        translate([5,1,13])
+        move_y(90)
         {
-            rotate([90,0,0])
+            refill();
+            translate([5,1,13])
             {
-                linear_extrude(4)
+                rotate([90,0,0])
                 {
-                    text(back,size = 8);
+                    linear_extrude(4)
+                    {
+                        text(back,size = 8);
+                    }
                 }
             }
         }
     }
-    translate([w + 1.2,0.5,0.2])
+    if (print == 1)
     {
-        box_text();
+        translate([w + 1.2,0.5,0.2])
+        {
+            box_text();
+        }
     }
 
 }
@@ -70,25 +77,28 @@ module hr()
 }
 
 
-center_y(2,l)
+if (print == 0)
 {
-    difference()
+    center_y(2,l)
     {
-        depth = 2;
-
-        cube([w,depth,h - 3]);
-
-        translate([5,depth - 1,13])
+        difference()
         {
-            rotate([90,0,0])
+            depth = 2;
+
+            cube([w,depth,h - 3]);
+
+            translate([5,depth - 1,13])
             {
-                linear_extrude(depth)
+                rotate([90,0,0])
                 {
-                    text(front,size = 5);
+                    linear_extrude(depth)
+                    {
+                        text(front,size = 5);
+                    }
                 }
             }
+            refill();
         }
-        refill();
     }
 }
 
