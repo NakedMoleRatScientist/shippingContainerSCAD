@@ -2,7 +2,7 @@ $fa = 1;
 $fs = 0.1;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
-module small_box(width,length,height,m = 0)
+module small_box(width,length,height,m = 0,print = 0)
 {
     thickness = 5;
     side_thickness = 2;
@@ -15,60 +15,65 @@ module small_box(width,length,height,m = 0)
     handle_h = 5;
     handle_l = 2;
     total_h = (z - handle_h) / 2 - 2;
-
-    difference()
+    if (print == 0)
     {
-        cube([w,l,z]);
-        //Make the middle part height 3 mm lower. Helps make it easier to fit the drawers into the shipping container.
-        translate([-cut,thickness,z - 3])
+        difference()
         {
-            cube([w + (cut * 2),l - (thickness * 2),4]);
-        }
-        //inside volume
-        translate([side_thickness + m,thickness,thickness])
-        {
-            inside_w = w - (side_thickness * 2) - m;
-            hull()
+            cube([w,l,z]);
+            //Make the middle part height 3 mm lower. Helps make it easier to fit the drawers into the shipping container.
+            translate([-cut,thickness,z - 3])
             {
-                hor_cylinder(inside_w,1);
-                translate([0,0,z - thickness])
-                {
-                    hor_cylinder(inside_w,1);
-                }
-                translate([0,l - (thickness * 2) - 2,0])
+                cube([w + (cut * 2),l - (thickness * 2),4]);
+            }
+            //inside volume
+            translate([side_thickness + m,thickness,thickness])
+            {
+                inside_w = w - (side_thickness * 2) - m;
+                hull()
                 {
                     hor_cylinder(inside_w,1);
                     translate([0,0,z - thickness])
                     {
                         hor_cylinder(inside_w,1);
                     }
+                    translate([0,l - (thickness * 2) - 2,0])
+                    {
+                        hor_cylinder(inside_w,1);
+                        translate([0,0,z - thickness])
+                        {
+                            hor_cylinder(inside_w,1);
+                        }
+                    }
                 }
             }
-        }
-        translate([-cut,l - 3,-cut])
-        {
-            cube([w + (cut * 2),3 + cut,3 + cut]);
-        }
-        translate([1,-cut,1])
-        {
-            difference()
+            translate([-cut,l - 3,-cut])
             {
-                cube([w - 2,2 + cut,total_h]);
+                cube([w + (cut * 2),3 + cut,3 + cut]);
             }
-        }
-        center_z(handle_h,z)
-        {
-            center(handle_w,w)
+            translate([1,-cut,1])
             {
-                handle(handle_w,handle_l,handle_h);
-                    
+                difference()
+                {
+                    cube([w - 2,2 + cut,total_h]);
+                }
             }
-            
+            center_z(handle_h,z)
+            {
+                center(handle_w,w)
+                {
+                    handle(handle_w,handle_l,handle_h);
+                        
+                }
+                
+            }
         }
     }
-    translate([w + 1,0,0])
+    if (print == 1)
     {
-        cube([w - 2 - m_2,total_h - m_2,2]);
+        translate([w + 1,0,0])
+        {
+            cube([w - 2 - m_2,total_h - m_2,2]);
+        }
     }
 
 }
