@@ -2,7 +2,17 @@ $fa = 1;
 $fs = 0.1;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
-module small_box(width,length,height,m = 0,print = "box",div=0)
+function divide_by_y(target_l,center_l,times) = (target_l - center_l * (times - 1)) / times;
+
+module hulling(inside_w,r,z,thickness)
+{
+    hor_cylinder(inside_w,r);
+    translate([0,0,z - thickness - (r * 2)])
+    {
+        hor_cylinder(inside_w,r);
+    }
+}
+module small_box(width,length,height,m = 0,print = "box",div=1)
 {
     thickness = 5;
     side_thickness = 2;
@@ -26,23 +36,28 @@ module small_box(width,length,height,m = 0,print = "box",div=0)
                 cube([w + (cut * 2),l - (thickness * 2),4]);
             }
             //inside volume
+        
             translate([side_thickness + m,thickness,thickness])
             {
-                inside_w = w - (side_thickness * 2) - m;
                 r = 3;
-                hull()
+                r_2 = r * 2;
+                thickness_2 = thickness * 2;
+                inside_w = w - (side_thickness * 2) - m;
+                inside_l = l - thickness_2;
+                wall = 2;
+                divider_l = divide_by_y(inside_l,wall,div);
+                for(i=[0:1:div - 1])
                 {
-                    hor_cylinder(inside_w,r);
-                    translate([0,0,z - thickness])
+                    hull()
                     {
-                        hor_cylinder(inside_w,r);
-                    }
-                    translate([0,l - (thickness * 2) - r * 2,0])
-                    {
-                        hor_cylinder(inside_w,r);
-                        translate([0,0,z - thickness])
+                        translate([0,(divider_l + wall) * i,0])
                         {
-                            hor_cylinder(inside_w,r);
+                            hulling(inside_w,r,z,thickness);
+                            translate([0,divider_l - r_2,0])
+                            {
+                                hulling(inside_w,r,z,thickness);
+
+                            }
                         }
                     }
                 }
