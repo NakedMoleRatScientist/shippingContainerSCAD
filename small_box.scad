@@ -2,7 +2,7 @@ $fa = 1;
 $fs = 0.1;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
-module small_box(width,length,height,m = 0,print = "box")
+module small_box(width,length,height,m = 0,print = "box",div=0)
 {
     thickness = 5;
     side_thickness = 2;
@@ -29,19 +29,20 @@ module small_box(width,length,height,m = 0,print = "box")
             translate([side_thickness + m,thickness,thickness])
             {
                 inside_w = w - (side_thickness * 2) - m;
+                r = 3;
                 hull()
                 {
-                    hor_cylinder(inside_w,1);
+                    hor_cylinder(inside_w,r);
                     translate([0,0,z - thickness])
                     {
-                        hor_cylinder(inside_w,1);
+                        hor_cylinder(inside_w,r);
                     }
-                    translate([0,l - (thickness * 2) - 2,0])
+                    translate([0,l - (thickness * 2) - r * 2,0])
                     {
-                        hor_cylinder(inside_w,1);
+                        hor_cylinder(inside_w,r);
                         translate([0,0,z - thickness])
                         {
-                            hor_cylinder(inside_w,1);
+                            hor_cylinder(inside_w,r);
                         }
                     }
                 }
