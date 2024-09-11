@@ -2,7 +2,7 @@ $fa = 1;
 $fs = 0.1;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
-module small_box(width,length,height,m = 0,print = 0)
+module small_box(width,length,height,m = 0,print = "box")
 {
     thickness = 5;
     side_thickness = 2;
@@ -15,7 +15,7 @@ module small_box(width,length,height,m = 0,print = 0)
     handle_h = 5;
     handle_l = 2;
     total_h = (z - handle_h) / 2 - 2;
-    if (print == 0)
+    if (print == "box")
     {
         difference()
         {
@@ -68,7 +68,7 @@ module small_box(width,length,height,m = 0,print = 0)
             }
         }
     }
-    if (print == 1)
+    if (print == "nameplate")
     {
         translate([w + 1,0,0])
         {
