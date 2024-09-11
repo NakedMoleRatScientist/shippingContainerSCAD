@@ -21,7 +21,7 @@ title = str(front,"-",back);
 
 difference()
 {
-    small_box(width,length,height,m,print);
+    small_box(width,length,height,m,print,2);
     if (print == "box")
     {
         move_y(90)
@@ -38,6 +38,24 @@ difference()
                 }
             }
         }
+        if (print == "box")
+        {
+            center_y(2,l)
+            {
+                depth = 2;
+                translate([5,depth - 1,13])
+                {
+                    rotate([90,0,0])
+                    {
+                        linear_extrude(depth)
+                        {
+                            text(front,size = 5);
+                        }
+                    }
+                }
+                refill();
+            }
+         }
     }
     if (print == "nameplate")
     {
@@ -77,30 +95,7 @@ module hr()
 }
 
 
-if (print == "box")
-{
-    center_y(2,l)
-    {
-        difference()
-        {
-            depth = 2;
 
-            cube([w,depth,h - 3]);
-
-            translate([5,depth - 1,13])
-            {
-                rotate([90,0,0])
-                {
-                    linear_extrude(depth)
-                    {
-                        text(front,size = 5);
-                    }
-                }
-            }
-            refill();
-        }
-    }
-}
 
 
 module box_text()
