@@ -10,18 +10,13 @@ end
 
 task :generate do
     start = "OpenSCAD -o #{front}-#{back}.stl 0.1-1uF.scad"
-    print = " -D print=\\\"box\\\""
-    front = " -D front=\\\"#{front}\\\""
-    back = " -D back=\\\"#{back}\\\""
-    command = start + print + front + back
-    sh command
-end
-
-task :nameplate do
+    print_option = " -D print=\\\"box\\\""
+    front_option = " -D front=\\\"#{front}\\\""
+    back_option = " -D back=\\\"#{back}\\\""
+    box = start + print_option + front_option + back_option
+    sh box
     start = "OpenSCAD -o #{front}-#{back}-nameplate.stl 0.1-1uF.scad"
-    print = " -D print=\\\"nameplate\\\""
-    front = " -D front=\\\"#{front}\\\""
-    back = " -D back=\\\"#{back}\\\""
-    command = start + print + front + back
-    sh command
+    print_option = " -D print=\\\"nameplate\\\""
+    nameplate = start + print_option + front_option + back_option
+    sh nameplate
 end
