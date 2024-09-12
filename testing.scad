@@ -14,49 +14,65 @@ $fs = 0.1;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
 width = 100;
-length = 200;
+length = 2;
 height = 50;
-thickness = 3;
-divider = 4;
-function divide_by_y(target_l,center_l,times) = (target_l - center_l * (times - 1)) / times;
 
-small_l = divide_by_y(length,thickness,divider);
-
-r = 2;
-for(i=[0:1:divider - 1])
+module shape()
 {
-    translate([0,(small_l + thickness) * i,0])
+    cube([width,length,height]);
+}
+
+module shape_flat()
+{
+    cube([width,height,length]);
+}
+
+module cut_corner()
+{
+    size = 2;
+    scale([1,1.1,1])
     {
-        hull()
+        translate([-1,0,size])
         {
-            hor_cylinder(width,r);
-            translate([0,0,height - (r * 2)])
+            rotate([0,90,0])
             {
-            hor_cylinder(width,r);
-            }
-            translate([0,small_l - (r * 2),0])
-            {
-                hor_cylinder(width,r);
-                translate([0,0,height - (r * 2)])
+                linear_extrude(width + 2)
                 {
-                    hor_cylinder(width,r);
+
+                    polygon([[0,0],[0,size],[size,size]],[[0,1,2]]);
+
                 }
             }
         }
     }
 }
-translate([width,0,0])
+
+module cut_corner_horz()
 {
-    for(i=[0:1:divider - 1])
+    size = 2;
+    scale([1,1.1,1])
     {
-        translate([0,(small_l + thickness) * i,0])
+        translate([-1,0,size])
         {
-            cube([width,small_l,height]);
+            rotate([0,90,0])
+            {
+                linear_extrude(width + 2)
+                {
+
+                    polygon([[size,0],[0,size],[size,size]],[[0,1,2]]);
+
+                }
+            }
         }
     }
 }
-translate([width * 2,0,0])
-{
-    cube([width,length,height]);
 
+difference()
+{
+    shape_flat();
+
+    translate([0,height - 2,0])
+    {
+        cut_corner_horz();
+    }
 }
