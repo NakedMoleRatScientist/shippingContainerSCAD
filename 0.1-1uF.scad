@@ -57,7 +57,7 @@ difference()
             }
          }
     }
-    if (print == "nameplate")
+    if (print == "nameplate2")
     {
         translate([w + 1.2,0.5,0.2])
         {
@@ -102,6 +102,6 @@ module box_text()
 {
     linear_extrude(2)
     {
-        text(title,size = 4.8);
+        text(title,size = 5);
     }
 }
