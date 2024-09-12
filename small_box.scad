@@ -4,6 +4,71 @@ use <vendors/UtilitySCAD-R1/utility.scad>;
 
 function divide_by_y(target_l,center_l,times) = (target_l - center_l * (times - 1)) / times;
 
+module solid_cube(width,length,height)
+{
+    cube([width,length,height]);
+}
+
+module cut_corner(width)
+{
+    size = 2;
+    scale([1,1.1,1])
+    {
+        translate([-1,0,size])
+        {
+            rotate([0,90,0])
+            {
+                linear_extrude(width + 2)
+                {
+
+                    polygon([[0,0],[0,size],[size,size]],[[0,1,2]]);
+                }
+            }
+        }
+    }
+}
+
+module cut_corner_horz(width)
+{
+    size = 3;
+    scale([1,1.1,1])
+    {
+        translate([-1,0,size])
+        {
+            rotate([0,90,0])
+            {
+                linear_extrude(width + 2)
+                {
+
+                    polygon([[size,0],[0,size],[size,size]],[[0,1,2]]);
+
+                }
+            }
+        }
+    }
+}
+
+module handle(w,l,h)
+{
+    translate([0,0,0])
+    {
+        rotate([90,0,90])
+        {
+            linear_extrude(w)
+            {
+              polygon(points=[[0,0],[l,0],[0,h]],paths=[[0,1,2]]);
+            }
+        }
+        translate([0,l - 1,-0.9])
+        {
+            cube([w,1,1]);
+        }
+        translate([0,-0.9,0])
+        {
+            cube([w,1,h]);
+        }
+    }
+}
 module hulling(inside_w,r,z,thickness)
 {
     hor_cylinder(inside_w,r);
@@ -64,8 +129,10 @@ module small_box(width,length,height,m = 0,print = "box",div=1)
             }
             translate([-cut,l - 3,-cut])
             {
-                cube([w + (cut * 2),3 + cut,3 + cut]);
+                //cube([w + (cut * 2),3 + cut,3 + cut]);
+                cut_corner_horz(w + (cut * 2));
             }
+            //Nameplate holder
             translate([1,-cut,1])
             {
                 difference()
@@ -86,39 +153,28 @@ module small_box(width,length,height,m = 0,print = "box",div=1)
     }
     if (print == "nameplate")
     {
-        translate([w + 1,0,0])
+        translate([w + 1,0,2])
         {
-            cube([w - 2 - m_2,total_h - m_2,2]);
+            difference()
+            {
+                rotate([-90,0,0])
+                {
+                    difference()
+                    {
+                        cube([w - 2 - m_2,2,total_h - m_2]);
+                        translate([0,0,total_h - m_2 - 2])
+                        {
+                            cut_corner(w - 2 - m_2);
+                        }
+                    }
+                }
+            }
         }
     }
 
 }
 
-module solid_cube(width,length,height)
-{
-    cube([width,length,height]);
-}
+
 
 small_box(40,100,25,0.1);
 
-module handle(w,l,h)
-{
-    translate([0,0,0])
-    {
-        rotate([90,0,90])
-        {
-            linear_extrude(w)
-            {
-              polygon(points=[[0,0],[l,0],[0,h]],paths=[[0,1,2]]);
-            }
-        }
-        translate([0,l - 1,-0.9])
-        {
-            cube([w,1,1]);
-        }
-        translate([0,-0.9,0])
-        {
-            cube([w,1,h]);
-        }
-    }
-}
