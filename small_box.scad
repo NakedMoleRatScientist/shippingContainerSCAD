@@ -9,44 +9,6 @@ module solid_cube(width,length,height)
     cube([width,length,height]);
 }
 
-module cut_corner(width)
-{
-    size = 2;
-    scale([1,1.1,1])
-    {
-        translate([-1,0,size])
-        {
-            rotate([0,90,0])
-            {
-                linear_extrude(width + 2)
-                {
-
-                    polygon([[0,0],[0,size],[size,size]],[[0,1,2]]);
-                }
-            }
-        }
-    }
-}
-
-module cut_corner_horz(width)
-{
-    size = 3;
-    scale([1,1.1,1])
-    {
-        translate([-1,0,size])
-        {
-            rotate([0,90,0])
-            {
-                linear_extrude(width + 2)
-                {
-
-                    polygon([[size,0],[0,size],[size,size]],[[0,1,2]]);
-
-                }
-            }
-        }
-    }
-}
 
 module handle(w,l,h)
 {
@@ -127,18 +89,12 @@ module small_box(width,length,height,m = 0,print = "box",div=1)
                     }
                 }
             }
-            translate([-cut,l - 3,-cut])
-            {
-                //cube([w + (cut * 2),3 + cut,3 + cut]);
-                cut_corner_horz(w + (cut * 2));
-            }
             //Nameplate holder
             translate([1,-cut,1])
             {
-                difference()
-                {
-                    cube([w - 2,2 + cut,total_h]);
-                }
+
+                cube([w - 2,2 + cut,total_h]);
+
             }
             center_z(handle_h,z)
             {
@@ -151,26 +107,22 @@ module small_box(width,length,height,m = 0,print = "box",div=1)
             }
         }
     }
-    if (print == "nameplate")
+    translate([w + 1,0,0])
     {
-        translate([w + 1,0,2])
+        if (print == "nameplate1")
         {
-            difference()
+            cube([w - 2 - m_2,total_h - m_2,0.2]);
+        }
+        else if(print == "nameplate2")
+        {
+            translate([0,0,0.2])
             {
-                rotate([-90,0,0])
-                {
-                    difference()
-                    {
-                        cube([w - 2 - m_2,2,total_h - m_2]);
-                        translate([0,0,total_h - m_2 - 2])
-                        {
-                            cut_corner(w - 2 - m_2);
-                        }
-                    }
-                }
+                cube([w - 2 - m_2,total_h - m_2,1.8]);
             }
         }
-    }
+
+    }    
+       
 
 }
 
