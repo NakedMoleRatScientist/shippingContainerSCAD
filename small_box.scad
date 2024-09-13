@@ -113,7 +113,7 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
         {
             cube([w - 2 - m_2,total_h - m_2,0.2]);
         }
-        else if(print == "nameplate2" || "all")
+        if(print == "nameplate2" || "all")
         {
             translate([0,0,0.2])
             {
