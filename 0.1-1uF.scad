@@ -57,7 +57,7 @@ difference()
             }
          }
     }
-    if (print == "nameplate2" || "all")
+    if (print == "nameplate2" || print == "all")
     {
         translate([w + 1.2,0.5,0.2])
         {

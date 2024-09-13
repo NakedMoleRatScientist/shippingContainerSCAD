@@ -52,7 +52,7 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     handle_h = 5;
     handle_l = 2;
     total_h = (z - handle_h) / 2 - 2;
-    if (print == "box" || "all")
+    if (print == "box" || print == "all")
     {
         difference()
         {
@@ -109,11 +109,11 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     }
     translate([w + 1,0,0])
     {
-        if (print == "nameplate1" || "all")
+        if (print == "nameplate1" || print == "all")
         {
             cube([w - 2 - m_2,total_h - m_2,0.2]);
         }
-        if(print == "nameplate2" || "all")
+        if(print == "nameplate2" || print == "all")
         {
             translate([0,0,0.2])
             {
