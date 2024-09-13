@@ -102,6 +102,6 @@ module box_text()
 {
     linear_extrude(2)
     {
-        text(title,size = 5);
+        text(title,size = 4.5);
     }
 }
