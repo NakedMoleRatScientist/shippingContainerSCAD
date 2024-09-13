@@ -4,7 +4,7 @@ $fs = 0.1;
 use <small_box.scad>;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
-print = "box";
+print = "all";
 cut = 0.1;
 width = 46.5;
 length = 95;
@@ -22,7 +22,7 @@ title = str(front,"-",back);
 difference()
 {
     small_box(width,length,height,m,print,2);
-    if (print == "box")
+    if (print == "box" || "all")
     {
         move_y(90)
         {
@@ -38,7 +38,7 @@ difference()
                 }
             }
         }
-        if (print == "box")
+        if (print == "box" || "all")
         {
             center_y(2,l)
             {
@@ -57,7 +57,7 @@ difference()
             }
          }
     }
-    if (print == "nameplate2")
+    if (print == "nameplate2" || "all")
     {
         translate([w + 1.2,0.5,0.2])
         {

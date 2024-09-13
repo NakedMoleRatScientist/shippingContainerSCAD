@@ -39,7 +39,7 @@ module hulling(inside_w,r,z,thickness)
         hor_cylinder(inside_w,r);
     }
 }
-module small_box(width,length,height,m = 0,print = "box",div=1)
+module small_box(width,length,height,m = 0,print = "all",div=1)
 {
     thickness = 5;
     side_thickness = 2;
@@ -52,7 +52,7 @@ module small_box(width,length,height,m = 0,print = "box",div=1)
     handle_h = 5;
     handle_l = 2;
     total_h = (z - handle_h) / 2 - 2;
-    if (print == "box")
+    if (print == "box" || "all")
     {
         difference()
         {
@@ -109,11 +109,11 @@ module small_box(width,length,height,m = 0,print = "box",div=1)
     }
     translate([w + 1,0,0])
     {
-        if (print == "nameplate1")
+        if (print == "nameplate1" || "all")
         {
             cube([w - 2 - m_2,total_h - m_2,0.2]);
         }
-        else if(print == "nameplate2")
+        else if(print == "nameplate2" || "all")
         {
             translate([0,0,0.2])
             {
