@@ -4,72 +4,46 @@ use <small_box.scad>;
 
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
+print = "all";
+width = 70;
+length = 95;
+height = 90;
+m = 0.2;
 module symbol()
 {
-
-        translate([30,0,(25 / 2)])
+        translate([33,10,0])
         {
-            rotate([90,0,0])
-            {
+
                 linear_extrude(2)
                 {
                    import(file = "resistor.svg", center = true);
                 }
-            }
         }
 }
 
-translate([0,0,0])
+difference()
 {
-
-    difference()
+small_box(width,length,height,m,print);
+    if (print == "nameplate2" || print == "all")
     {
-        small_box(70,95,90,0.2);
-        translate([0,1.9,0])
+        translate([width + 1.2,0.5,0.2])
         {
-            move_z(5)
+            move_x(25)
             {
                 resistor_text();
-                
-            }   
-            translate([0,0,15])
-            {
-                center(60,70)
-                {
-                    symbol();
-
-                }
             }
-
+            move_y(10)
+            {
+                symbol();
+            }
         }
     }
 }
-
-module center_z(centering_z,target_z)
-{
-    z = (target_z - centering_z) / 2;
-    translate([0,0,z])
-    {
-        children();
-    }
-}
-
-module center_y(centering_y,target_y)
-{
-    y = (target_y - centering_y) / 2;
-    translate([0,y,0])
-    {
-        children();
-    }
-}
-
+    
 module resistor_text()
 {
-    rotate([90,0,0])
+    linear_extrude(2)
     {
-        linear_extrude(2)
-        {
-            text("47");
-        }
+        text("47");
     }
 }
