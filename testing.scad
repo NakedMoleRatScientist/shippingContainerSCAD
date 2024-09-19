@@ -13,66 +13,60 @@ $fs = 0.1;
 
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
-width = 100;
-length = 2;
-height = 50;
+width = 20;
+length = 20;
+height = 15;
+thickness = 5;
+thickness_2 = thickness * 2;
 
-module shape()
+module lock()
 {
-    cube([width,length,height]);
-}
-
-module shape_flat()
-{
-    cube([width,height,length]);
-}
-
-module cut_corner()
-{
-    size = 2;
-    scale([1,1.1,1])
+    difference()
     {
-        translate([-1,0,size])
+        cube([width,length,height]);
+        translate([0,0,-0.1])
         {
-            rotate([0,90,0])
+            center(10,20)
             {
-                linear_extrude(width + 2)
+                center_y(3,length)
                 {
-
-                    polygon([[0,0],[0,size],[size,size]],[[0,1,2]]);
-
+                    cube([10,3,height + 0.2]);
+                }
+            }
+            center(5,20)
+            {
+                center_y(10,length)
+                {
+                   translate([0,0,5 + 0.1])
+                   {
+                        cube([5,10,5]);
+                   }
                 }
             }
         }
-    }
-}
-
-module cut_corner_horz()
-{
-    size = 2;
-    scale([1,1.1,1])
-    {
-        translate([-1,0,size])
+        translate([10,10,-0.1])
         {
-            rotate([0,90,0])
-            {
-                linear_extrude(width + 2)
-                {
-
-                    polygon([[size,0],[0,size],[size,size]],[[0,1,2]]);
-
-                }
-            }
+            cylinder(height - 10 + 0.1,5,5);
         }
+        
     }
 }
 
-difference()
-{
-    shape_flat();
+//lock();
 
-    translate([0,height - 2,0])
+key();
+
+module key()
+{
+    center_y(5,10)
     {
-        cut_corner_horz();
+        cube([10,5,10]);
+    }  
+    center(5,10)
+    {
+        translate([0,0,5])
+        {
+            cube([5,10,5]);
+        }
     }
 }
