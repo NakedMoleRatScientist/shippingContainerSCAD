@@ -25,3 +25,15 @@ task :generate do
     sh nameplate2
 
 end
+
+task :big_box do
+        start = "OpenSCAD -o resistor-box.stl resistor_box.scad"
+        box = " -D print=\\\"box\\\""
+        nameplate1 = " -D print=\\\"nameplate1\\\""
+        nameplate2 = " -D print=\\\"nameplate2\\\""
+        sh (start + box)
+        start = "OpenSCAD -o resistor-nameplate1.stl resistor_box.scad"
+        sh (start + nameplate1)
+        start = "OpenSCAD -o resistor-nameplate2.stl resistor_box.scad"
+        sh (start + nameplate2)
+end
