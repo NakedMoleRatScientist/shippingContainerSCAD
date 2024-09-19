@@ -68,7 +68,6 @@ module divide_container()
     }
 }
 
-divide_container();
 
 module cut_box(box_w,box_l,box_h)
 {
@@ -121,3 +120,4 @@ module generate_to_fit()
     
 }
 
+generate_to_fit();
