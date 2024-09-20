@@ -23,7 +23,7 @@ module symbol()
 
 difference()
 {
-small_box(width,length,height,m,print);
+    small_box(width,length,height,m,print);
     if (print == "nameplate2" || print == "all")
     {
         translate([width + 1.2,0.5,0.2])
