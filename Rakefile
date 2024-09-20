@@ -27,7 +27,7 @@ task :generate do
 end
 
 task :big_box do
-        start = "OpenSCAD -o resistor-box.stl resistor_box.scad"
+        start = "OpenSCAD -o resistor_box.stl resistor_box.scad"
         box = " -D print=\\\"box\\\""
         nameplate1 = " -D print=\\\"nameplate1\\\""
         nameplate2 = " -D print=\\\"nameplate2\\\""
