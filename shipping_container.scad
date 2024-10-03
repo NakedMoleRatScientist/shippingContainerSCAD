@@ -27,7 +27,7 @@ module place_endstops(h)
 module divide_container()
 {
     h_division = 4;
-    v_division = 4;
+    v_division = 2;
     wall = 1;
     spacing = wall / h_division;
     x_multiply = (width - 10) / h_division;
@@ -120,4 +120,5 @@ module generate_to_fit()
     
 }
 
-generate_to_fit();
+divide_container();
+//generate_to_fit();
