@@ -93,7 +93,8 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
             translate([1,-cut,1])
             {
 
-                cube([w - 2,2 + cut,total_h]);
+                cube([w - 2,2 + cut,total_h - 1]);
+                cube([w - 2,1 + cut,total_h ]);
 
             }
             center_z(handle_h,z)
@@ -111,7 +112,7 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     {
         if (print == "nameplate1" || print == "all")
         {
-            cube([w - 2 - m_2,total_h - m_2,0.2]);
+            cube([w - 2 - m_2,total_h - 1 - m_2,0.2]);
         }
         if(print == "nameplate2" || print == "all")
         {
