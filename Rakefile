@@ -26,6 +26,24 @@ task :box8x4 do
 
 end
 
+task :box4x4 do
+    start = "OpenSCAD -o #{front}-#{back}.stl 4x4_drawers.scad"
+    print_option = " -D print=\\\"box\\\""
+    front_option = " -D front=\\\"#{front}\\\""
+    back_option = " -D back=\\\"#{back}\\\""
+    box = start + print_option + front_option + back_option
+    sh box
+    start = "OpenSCAD -o #{front}-#{back}-nameplate1.stl 4x4_drawers.scad"
+    print_option = " -D print=\\\"nameplate1\\\""
+    nameplate1 = start + print_option + front_option + back_option
+    sh nameplate1
+    start = "OpenSCAD -o #{front}-#{back}-nameplate2.stl 4x4_drawers.scad"
+    print_option = " -D print=\\\"nameplate2\\\""
+    nameplate2 = start + print_option + front_option + back_option
+    sh nameplate2
+
+end
+
 task :big_box do
         start = "OpenSCAD -o resistor_box.stl resistor_box.scad"
         box = " -D print=\\\"box\\\""
