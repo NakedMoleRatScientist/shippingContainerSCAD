@@ -8,7 +8,7 @@ if ENV['back'] != nil
     back = ENV['back']
 end
 
-task :generate do
+task :box8x4 do
     start = "OpenSCAD -o #{front}-#{back}.stl 8x4_drawers.scad"
     print_option = " -D print=\\\"box\\\""
     front_option = " -D front=\\\"#{front}\\\""
