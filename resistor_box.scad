@@ -44,6 +44,6 @@ module resistor_text()
 {
     linear_extrude(2)
     {
-        text("47");
+        text("1");
     }
 }
