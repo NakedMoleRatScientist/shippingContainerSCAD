@@ -8,14 +8,14 @@ print = "all";
 cut = 0.1;
 width = 46.5;
 length = 95;
-height = 21.5;
+height = 44;
 m = 0.2;
 m_2 = m * 2;
 w = width - m_2;
 l = length - m_2;
 h = height - m_2;
-front = "0.15uF";
-back = "1.5uF";
+front = "M3x40";
+back = "M3x45";
 title = str(front,"-",back);
 
 
