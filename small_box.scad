@@ -12,25 +12,23 @@ module solid_cube(width,length,height)
 
 module handle(w,l,h)
 {
-    translate([0,0,0])
+    rotate([90,0,90])
     {
-        rotate([90,0,90])
+        linear_extrude(w)
         {
-            linear_extrude(w)
-            {
-              polygon(points=[[0,0],[l,0],[0,h]],paths=[[0,1,2]]);
-            }
-        }
-        translate([0,l - 1,-0.9])
-        {
-            cube([w,1,1]);
-        }
-        translate([0,-0.9,0])
-        {
-            cube([w,1,h]);
+          polygon(points=[[0,0],[l,0],[0,h]],paths=[[0,1,2]]);
         }
     }
+    translate([0,l - 1,-0.9])
+    {
+        cube([w,1,1]);
+    }
+    translate([0,-0.9,0])
+    {
+        cube([w,1,h]);
+    }
 }
+
 module hulling(inside_w,r,z,thickness)
 {
     hor_cylinder(inside_w,r);
@@ -93,9 +91,7 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
             translate([1,-cut,1])
             {
 
-                cube([w - 2,2 + cut,total_h - 1]);
-                cube([w - 2,1 + cut,total_h ]);
-
+                cube([w - 2,2 + cut,total_h ]);
             }
             center_z(handle_h,z)
             {
@@ -112,7 +108,7 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     {
         if (print == "nameplate1" || print == "all")
         {
-            cube([w - 2 - m_2,total_h - 1 - m_2,0.2]);
+            cube([w - 2 - m_2,total_h - 1 - m,0.2]);
         }
         if(print == "nameplate2" || print == "all")
         {
