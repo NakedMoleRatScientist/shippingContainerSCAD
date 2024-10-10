@@ -14,13 +14,18 @@ module endstop()
     cube([3 - m,3 - m,3 - m]);
 }
 
-module place_endstops(h)
+module cut_box(box_w,box_l,box_h)
 {
-   // endstop();
-    move_z(h - 3 + m)
+    difference()
     {
-        endstop();
-
+        solid_cube(box_w,box_l,box_h);
+        center(3 - m,box_w)
+        {
+            translate([0,5,0])
+            {
+                endstop();
+            }
+        }
     }
 }
 
@@ -64,25 +69,23 @@ module divide_container()
     echo(mini_h - wall);
     move_x(210)
     {
-       // small_box(box_w - wall, length - 5, mini_h - wall, 0.1);
+       //small_box(box_w - wall, length - 5, mini_h - wall, 0.1);
     }
-}
-
-
-module cut_box(box_w,box_l,box_h)
-{
-    difference()
+    move_x(210)
     {
-        solid_cube(box_w,box_l,box_h);
-        center(3 - m,box_w)
+        difference()
         {
-            translate([0,5,0])
+            cube([box_w + wall,10,mini_h + wall]);
+            translate([wall,-cut,wall])
             {
-                place_endstops(box_h);
+                cut_box(box_w - wall,length - 5,mini_h - wall);
             }
         }
     }
 }
+
+
+
 
 module generate_to_fit()
 {
