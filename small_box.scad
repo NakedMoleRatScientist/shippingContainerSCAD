@@ -65,12 +65,6 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
                     }
                  }
             }
-
-            //Make the middle part height 3 mm lower. Helps make it easier to fit the drawers into the shipping container.
-            translate([-cut,thickness,z - 3])
-            {
-                //cube([w + (cut * 2),l - (thickness * 2),4]);
-            }
             //inside volume
         
             translate([side_thickness + m,thickness,thickness])
