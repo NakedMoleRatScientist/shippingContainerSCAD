@@ -55,10 +55,21 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
         difference()
         {
             cube([w,l,z]);
+            move_y(5)
+            {
+                center(3,width)
+                {
+                    move_z(-0.1)
+                    {
+                        cube([3,length - 10,3 + cut]);
+                    }
+                 }
+            }
+
             //Make the middle part height 3 mm lower. Helps make it easier to fit the drawers into the shipping container.
             translate([-cut,thickness,z - 3])
             {
-                cube([w + (cut * 2),l - (thickness * 2),4]);
+                //cube([w + (cut * 2),l - (thickness * 2),4]);
             }
             //inside volume
         
@@ -77,21 +88,21 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
                     {
                         translate([0,(divider_l + wall) * i,0])
                         {
-                            hulling(inside_w,r,z,thickness);
+                            hulling(inside_w,r,z + 1,thickness);
                             translate([0,divider_l - r_2,0])
                             {
-                                hulling(inside_w,r,z,thickness);
+                                hulling(inside_w,r,z + 1,thickness);
 
                             }
                         }
                     }
-                }
+                 }
             }
             //Nameplate holder
             translate([1,-cut,1])
             {
 
-                cube([w - 2,2 + cut,total_h ]);
+                cube([w - 2,2 + cut,total_h - 2 ]);
             }
             center_z(handle_h,z)
             {
@@ -102,19 +113,20 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
                 }
                 
             }
+            
         }
     }
     translate([w + 1,0,0])
     {
         if (print == "nameplate1" || print == "all")
         {
-            cube([w - 2 - m_2,total_h - 1 - m,0.2]);
+            cube([w - 2 - m_2,total_h - 2,0.2]);
         }
         if(print == "nameplate2" || print == "all")
         {
             translate([0,0,0.2])
             {
-                cube([w - 2 - m_2,total_h - m_2,1.8]);
+                cube([w - 2 - m_2,total_h - 2 - m_2,1.8]);
             }
         }
 
