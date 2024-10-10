@@ -55,13 +55,13 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
         difference()
         {
             cube([w,l,z]);
-            move_y(5)
+            move_y(3)
             {
                 center(3,width)
                 {
                     move_z(-0.1)
                     {
-                        cube([3,length - 10,3 + cut]);
+                        cube([3,length - 6,3 + cut]);
                     }
                  }
             }
