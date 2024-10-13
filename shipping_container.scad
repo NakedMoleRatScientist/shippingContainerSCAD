@@ -21,7 +21,7 @@ module cut_box(box_w,box_l,box_h)
         solid_cube(box_w,box_l,box_h);
         center(3 - m,box_w)
         {
-            translate([0,5,0])
+            translate([0,2,0])
             {
                 endstop();
             }
@@ -29,7 +29,7 @@ module cut_box(box_w,box_l,box_h)
     }
 }
 
-module divide_container()
+module divide_container(print="all")
 {
     h_division = 4;
     v_division = 2;
@@ -39,18 +39,21 @@ module divide_container()
     box_w = (width - 10) / h_division;
     cut = 0.1;
     mini_h = (height - thickness_2)/ v_division;
-    difference()
+    if (print == "all" || print =="container")
     {
-        cube([width,length,height]);
-        for (i = [0:1:h_division - 1])
+        difference()
         {
-            start_x = 5 + i * (x_multiply + (wall / (h_division - 1)));
-            for (z = [0:1:v_division - 1])
+            cube([width,length,height]);
+            for (i = [0:1:h_division - 1])
             {
-                start_z = 5 + z * (mini_h + wall / (v_division - 1));
-                translate([start_x,-cut,start_z])
+                start_x = 5 + i * (x_multiply + (wall / (h_division - 1)));
+                for (z = [0:1:v_division - 1])
                 {
-                    cut_box(box_w - wall,length - 5,mini_h - wall);
+                    start_z = 5 + z * (mini_h + wall / (v_division - 1));
+                    translate([start_x,-cut,start_z])
+                    {
+                        cut_box(box_w - wall,length - 5,mini_h - wall);
+                    }
                 }
             }
         }
@@ -71,14 +74,17 @@ module divide_container()
     {
        //small_box(box_w - wall, length - 5, mini_h - wall, 0.1);
     }
-    move_x(210)
+    if (print == "all" || print == "test")
     {
-        difference()
+        move_x(210)
         {
-            cube([box_w + wall,10,mini_h + wall]);
-            translate([wall,-cut,wall])
+            difference()
             {
-                cut_box(box_w - wall,length - 5,mini_h - wall);
+                cube([box_w + 5,length,mini_h + 5]);
+                translate([5,-cut,wall])
+                {
+                    cut_box(box_w - wall,length - 5,mini_h - wall);
+                }
             }
         }
     }
@@ -123,5 +129,5 @@ module generate_to_fit()
     
 }
 
-divide_container();
+divide_container("test");
 //generate_to_fit();
