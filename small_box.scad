@@ -32,15 +32,16 @@ module handle(w,l,h)
 module hulling(inside_w,r,z,thickness)
 {
     hor_cylinder(inside_w,r);
-    translate([0,0,z - thickness - (r * 2)])
+    translate([0,0,z + 0.1 - thickness - (r * 2)])
     {
         hor_cylinder(inside_w,r);
     }
 }
+
 module small_box(width,length,height,m = 0,print = "all",div=1)
 {
     thickness = 5;
-    side_thickness = 2;
+    side_thickness = 1.5;
     cut = 0.1;
     m_2 = m * 2;
     w = width - m_2;
@@ -55,13 +56,14 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
         difference()
         {
             cube([w,l,z]);
+            //Create rail
             move_y(3)
             {
                 center(3,width)
                 {
                     move_z(-0.1)
                     {
-                        cube([3,length - 6,3 + cut]);
+                        cube([3,length - 5,3 + cut + m]);
                     }
                  }
             }
@@ -91,12 +93,28 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
                         }
                     }
                  }
+                 
+            }
+            // Cutting off to allow free movement.
+            translate([-cut,l - 3,z - 1])
+            {
+                cube([w + 0.2,3 + cut,3]);
+                translate([0,1,-1])
+                {
+                    cube([w + 0.2,2 + cut,3]);
+                }
+                translate([0,2,-2])
+                {
+                    cube([w + 0.2,2 + cut,3]);
+                }
             }
             //Nameplate holder
             translate([1,-cut,1])
             {
 
-                cube([w - 2,2 + cut,total_h - 2 ]);
+                cube([w - 2,1 + cut,total_h - 2]);
+                cube([w - 2,2 + cut,total_h - 3]);
+
             }
             center_z(handle_h,z)
             {
@@ -112,15 +130,22 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     }
     translate([w + 1,0,0])
     {
+        plate_l = total_h - 2 - m_2;
         if (print == "nameplate1" || print == "all")
         {
-            cube([w - 2 - m_2,total_h - 2,0.2]);
+            cube([w - 2 - m_2,plate_l - 1,0.2]);
+            cube([w - 2 - m_2,plate_l - 1,0.8]);
         }
         if(print == "nameplate2" || print == "all")
         {
             translate([0,0,0.2])
             {
-                cube([w - 2 - m_2,total_h - 2 - m_2,1.8]);
+                cube([w - 2 - m_2,plate_l - 1,0.8]);
+                
+            }
+            translate([0,0,1])
+            {
+                cube([w - 2 - m_2,plate_l,1]);
             }
         }
 
@@ -131,5 +156,5 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
 
 
 
-small_box(46.5,95,44,0.1);
+small_box(46.5,95,44,0.4,"all");
 
