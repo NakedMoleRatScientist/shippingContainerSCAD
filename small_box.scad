@@ -130,22 +130,23 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     }
     translate([w + 1,0,0])
     {
-        plate_l = total_h - 2 - m_2;
-        if (print == "nameplate1" || print == "all")
+        plate_m = 0.05;
+        plate_m2 = plate_m * 2;
+        plate_l = total_h - 2 - plate_m2;
+        if (print == "nameplate1" || print == "all" || print == "nameplate")
         {
-            cube([w - 2 - m_2,plate_l - 1,0.2]);
-            cube([w - 2 - m_2,plate_l - 1,0.8]);
+            cube([w - 2 - plate_m2,plate_l - 1,0.2]);
         }
-        if(print == "nameplate2" || print == "all")
+        if(print == "nameplate2" || print == "all" || print == "nameplate")
         {
             translate([0,0,0.2])
             {
-                cube([w - 2 - m_2,plate_l - 1,0.8]);
+                cube([w - 2 - plate_m2,plate_l - 1,0.8]);
                 
             }
             translate([0,0,1])
             {
-                cube([w - 2 - m_2,plate_l,1]);
+                cube([w - 2 - plate_m2,plate_l,1]);
             }
         }
 
@@ -156,5 +157,5 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
 
 
 
-small_box(46.5,95,44,0.4,"all");
+small_box(46.5,95,44,0.4,"box");
 
