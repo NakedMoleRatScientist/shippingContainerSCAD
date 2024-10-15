@@ -1,5 +1,6 @@
 $fa = 1;
 $fs = 0.1;
+include <vendors/BOSL2/std.scad>
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
 function divide_by_y(target_l,center_l,times) = (target_l - center_l * (times - 1)) / times;
@@ -51,21 +52,20 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     handle_h = 5;
     handle_l = 2;
     total_h = (z - handle_h) / 2 - 2;
+    cham = 3;
     if (print == "box" || print == "all")
     {
         difference()
         {
-            cube([w,l,z]);
+            cuboid([w,l,z],chamfer=cham);
             //Create rail
-            move_y(3)
+            move_y(0)
             {
-                center(3,width)
+                
+                move_z((-z / 2) + 1.5 - cut)
                 {
-                    move_z(-0.1)
-                    {
-                        cube([3,length - 5,3 + cut + m]);
-                    }
-                 }
+                    cube([3,l - (cham * 2) - 1,3 + cut],center = true);
+                }
             }
             //inside volume
         
