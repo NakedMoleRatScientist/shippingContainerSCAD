@@ -1,3 +1,5 @@
+include <vendors/BOSL2/std.scad>
+
 use <small_box.scad>;
 use <vendors/UtilitySCAD-R1/utility.scad>;
 
