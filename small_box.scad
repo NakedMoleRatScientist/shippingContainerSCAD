@@ -48,82 +48,38 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     w = width - m_2;
     l = length - m_2;
     z = height - m_2;
-    handle_w = 10;
-    handle_h = 5;
-    handle_l = 2;
-    total_h = (z - handle_h) / 2 - 2;
+    nameplate_h = 5;
     cham = 3;
+    cham_2 = cham * 2;
+    cham_move = cham / 2;
     if (print == "box" || print == "all")
     {
         difference()
         {
-            cuboid([w,l,z],chamfer=cham);
+            cuboid([w,l,z],chamfer=cham,except=[TOP+LEFT,TOP+RIGHT]);
             //Create rail
-            move_y(0)
+            move_z((-z / 2) + 1.5 - cut)
             {
-                
-                move_z((-z / 2) + 1.5 - cut)
-                {
-                    cube([3,l - (cham * 2) - 1,3 + cut],center = true);
-                }
+                cube([3,l - (cham * 2) - 1,3 + cut],center = true);
             }
+
             //inside volume
-        
-            translate([side_thickness + m,thickness,thickness])
+            move_z(10)
             {
-                r = 3;
-                r_2 = r * 2;
-                thickness_2 = thickness * 2;
-                inside_w = w - (side_thickness * 2) - m;
-                inside_l = l - thickness_2;
-                wall = 2;
-                divider_l = divide_by_y(inside_l,wall,div);
-                for(i=[0:1:div - 1])
-                {
-                    hull()
-                    {
-                        translate([0,(divider_l + wall) * i,0])
-                        {
-                            hulling(inside_w,r,z + 1,thickness);
-                            translate([0,divider_l - r_2,0])
-                            {
-                                hulling(inside_w,r,z + 1,thickness);
-
-                            }
-                        }
-                    }
-                 }
-                 
+                cuboid([w - 2,l - 6,z + 10],rounding=10);
             }
-            // Cutting off to allow free movement.
-            translate([-cut,l - 3,z - 1])
+            //nameplate holder
+            translate([0,-(l / 2) + .5 - cut,-(z / 2) + cham_move * nameplate_h + cham])
             {
-                cube([w + 0.2,3 + cut,3]);
-                translate([0,1,-1])
+                move_y(-cut)
                 {
-                    cube([w + 0.2,2 + cut,3]);
-                }
-                translate([0,2,-2])
-                {
-                    cube([w + 0.2,2 + cut,3]);
+                    cuboid([w - cham_2 - 1,1 + cut,cham * nameplate_h],chamfer=0.5,edges=[TOP+BACK],$fn=24);
                 }
             }
-            //Nameplate holder
-            translate([1,-cut,1])
+            //handle
+            translate([0,-(l / 2) + 1 - cut,0])
             {
-
-                cube([w - 2,1 + cut,total_h - 2]);
-                cube([w - 2,2 + cut,total_h - 3]);
-
-            }
-            center_z(handle_h,z)
-            {
-                center(handle_w,w)
-                {
-                    handle(handle_w,handle_l,handle_h);
-                        
-                }
-                
+                cuboid([10,2 + cut,5],chamfer=1);
             }
             
         }
@@ -132,22 +88,13 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
     {
         plate_m = 0.05;
         plate_m2 = plate_m * 2;
-        plate_l = total_h - 2 - plate_m2;
+        plate_l = nameplate_h - 2 - plate_m2;
         if (print == "nameplate1" || print == "all" || print == "nameplate")
         {
-            cube([w - 2 - plate_m2,plate_l - 1,0.2]);
         }
         if(print == "nameplate2" || print == "all" || print == "nameplate")
         {
-            translate([0,0,0.2])
-            {
-                cube([w - 2 - plate_m2,plate_l - 1,0.8]);
-                
-            }
-            translate([0,0,1])
-            {
-                cube([w - 2 - plate_m2,plate_l,1]);
-            }
+            
         }
 
     }    
