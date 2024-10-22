@@ -69,12 +69,9 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
                 cuboid([w - 2,l - 6,z + 10],rounding=10);
             }
             //nameplate holder
-            translate([0,-(l / 2) + .5 - cut,-(z / 2) + cham_move * nameplate_h + cham])
+            translate([0,-(l / 2) + 1 - cut,-(z / 2) + cham_move * nameplate_h + cham])
             {
-                move_y(-cut)
-                {
-                    cuboid([w - cham_2 - 1,1 + cut,cham * nameplate_h],chamfer=0.5,edges=[TOP+BACK],$fn=24);
-                }
+                cuboid([w - cham_2 - 1,2 + cut,cham * nameplate_h],chamfer=0.5,edges=[TOP+BACK],$fn=24);
             }
             //handle
             translate([0,-(l / 2) + 1 - cut,0])
@@ -98,7 +95,22 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
         }
 
     }    
-       
+    translate([w / 2,-l / 2,-(z / 2)])
+    {
+        cylinder(0.2,10,10);   
+    }
+    translate([-(w / 2),-l / 2,-(z / 2)])
+    {
+        cylinder(0.2,10,10);   
+    }
+    translate([-(w / 2),l / 2,-(z / 2)])
+    {
+        cylinder(0.2,10,10);   
+    }
+    translate([(w / 2),l / 2,-(z / 2)])
+    {
+        cylinder(0.2,10,10);   
+    }
 
 }
 
