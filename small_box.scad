@@ -1,7 +1,10 @@
 $fa = 1;
 $fs = 0.1;
+
 include <vendors/BOSL2/std.scad>
 use <vendors/UtilitySCAD-R1/utility.scad>;
+
+cut = 0.1;
 
 function divide_by_y(target_l,center_l,times) = (target_l - center_l * (times - 1)) / times;
 
@@ -39,11 +42,16 @@ module hulling(inside_w,r,z,thickness)
     }
 }
 
+module nameplate(w,cham,nameplate_h)
+{
+    cham_2 = cham * 2;
+    cuboid([w - cham_2 - 14,2 + cut,cham * nameplate_h],chamfer=1,edges=[TOP+BACK],$fn=24);
+}
+
 module small_box(width,length,height,m = 0,print = "all",div=1)
 {
     thickness = 5;
     side_thickness = 1.5;
-    cut = 0.1;
     m_2 = m * 2;
     w = width - m_2;
     l = length - m_2;
@@ -64,14 +72,26 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
             }
 
             //inside volume
-            move_z(10)
+            translate([0,l / 4 ,10])
             {
-                cuboid([w - 2,l - 6,z + 10],rounding=10);
+                cuboid([w - 2,l / 2 - 6,z + 10],rounding=10);
+                translate([0,l / 4 - 2,-10])
+                {
+                    nameplate(w,cham,nameplate_h);
+                }
+            }
+            translate([0,-l / 4,10])
+            {
+                cuboid([w - 2,l / 2 - 6,z + 10],rounding=10);
+                 translate([0,l / 4 - 2,-10])
+                {
+                    nameplate(w,cham,nameplate_h);
+                }
             }
             //nameplate holder
             translate([0,-(l / 2) + 1 - cut,-(z / 2) + cham_move * nameplate_h + cham])
             {
-                cuboid([w - cham_2 - 1,2 + cut,cham * nameplate_h],chamfer=0.5,edges=[TOP+BACK],$fn=24);
+                nameplate(w,cham,nameplate_h);
             }
             //handle
             translate([0,-(l / 2) + 1 - cut,0])
@@ -88,6 +108,8 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
         plate_l = nameplate_h - 2 - plate_m2;
         if (print == "nameplate1" || print == "all" || print == "nameplate")
         {
+                            //nameplate(w,cham,nameplate_h);
+
         }
         if(print == "nameplate2" || print == "all" || print == "nameplate")
         {
@@ -116,5 +138,5 @@ module small_box(width,length,height,m = 0,print = "all",div=1)
 
 
 
-small_box(46.5,95,44,0.4,"box");
+small_box(46.5,95,44,0.4,"all");
 
